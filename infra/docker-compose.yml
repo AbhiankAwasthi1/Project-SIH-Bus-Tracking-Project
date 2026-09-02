@@ -1,0 +1,47 @@
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_USER: drishti
+      POSTGRES_PASSWORD: drishti
+      POSTGRES_DB: drishti
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U drishti -d drishti"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  api:
+    build:
+      context: ..
+      dockerfile: services/api/Dockerfile
+    environment:
+      DATABASE_URL: postgresql+psycopg2://drishti:drishti@db:5432/drishti
+      SECRET_KEY: change-me-sih26124
+      UPLOAD_DIR: /data/uploads
+      SAMPLE_DIR: /data/sample
+      CLUSTER_RADIUS_M: "20"
+    volumes:
+      - ../data:/data
+      - ../models:/models
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    build:
+      context: ..
+      dockerfile: apps/web/Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+
+volumes:
+  pgdata:
