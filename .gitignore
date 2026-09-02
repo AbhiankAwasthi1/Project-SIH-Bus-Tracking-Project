@@ -1,2 +1,6 @@
 graphify-out/
 .cursor/
+apps/web/node_modules/
+**/node_modules/
+services/api/.venv/
+.git/
