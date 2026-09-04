@@ -4,3 +4,6 @@ apps/web/node_modules/
 **/node_modules/
 services/api/.venv/
 .git/
+
+# Frontend build output
+apps/web/dist/

@@ -1,0 +1,126 @@
+/* Design tokens. The palette intentionally keeps the original warm, low-glare
+   control-room scheme so the product still reads as an operations console. */
+
+:root {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --color-bg: #12110f;
+  --color-bg-raised: #1b1a17;
+  --color-surface: #1f1d19;
+  --color-surface-hover: #2a261f;
+  --color-surface-active: #322c22;
+  --color-surface-sunken: #0e0d0c;
+
+  /* Lines and focus */
+  --color-border: #2e2b25;
+  --color-border-strong: #453f34;
+  --color-focus: #8ec5ff;
+
+  /* Text */
+  --color-text: #ece7dc;
+  --color-text-muted: #9a9284;
+  --color-text-faint: #6f6a60;
+  --color-text-on-accent: #19170f;
+
+  /* Brand and semantics */
+  --color-accent: #e3b341;
+  --color-accent-hover: #f0c356;
+  --color-accent-soft: rgba(227, 179, 65, 0.14);
+  --color-danger: #e85d04;
+  --color-danger-text: #ff9a5c;
+  --color-danger-soft: rgba(232, 93, 4, 0.14);
+  --color-warning: #d99b1c;
+  --color-warning-soft: rgba(217, 155, 28, 0.14);
+  --color-success: #7cb07c;
+  --color-success-soft: rgba(124, 176, 124, 0.16);
+  --color-info: #4a9eff;
+  --color-info-soft: rgba(74, 158, 255, 0.14);
+
+  /* Severity — mirrors the backend severity vocabulary (low/medium/high) */
+  --color-severity-low: #7cb07c;
+  --color-severity-medium: #d99b1c;
+  --color-severity-high: #e85d04;
+
+  /* Issue types — mirrors TYPE_COLOR in src/types.ts */
+  --color-issue-pothole: #e85d04;
+  --color-issue-damaged-road: #9b2226;
+  --color-issue-waterlogging: #1d8cff;
+  --color-issue-blockage: #c9a227;
+  --color-issue-congestion: #f4d35e;
+
+  /* Typography */
+  --font-sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+  --font-serif: "Newsreader", "Times New Roman", serif;
+
+  --text-2xs: 10px;
+  --text-xs: 11px;
+  --text-sm: 12px;
+  --text-base: 13px;
+  --text-md: 14px;
+  --text-lg: 16px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
+  --text-3xl: 30px;
+
+  --leading-tight: 1.2;
+  --leading-normal: 1.45;
+  --leading-relaxed: 1.6;
+
+  --tracking-wide: 0.06em;
+  --tracking-wider: 0.09em;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Spacing */
+  --space-0: 0;
+  --space-1: 2px;
+  --space-2: 4px;
+  --space-3: 8px;
+  --space-4: 12px;
+  --space-5: 16px;
+  --space-6: 20px;
+  --space-7: 24px;
+  --space-8: 32px;
+  --space-9: 40px;
+  --space-10: 56px;
+
+  /* Radii — deliberately small; the console reads as instrumentation, not consumer app */
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 5px;
+  --radius-lg: 8px;
+  --radius-pill: 999px;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45);
+  --shadow-panel: 0 8px 28px rgba(0, 0, 0, 0.5);
+
+  /* Layout */
+  --topbar-height: 56px;
+  --sidebar-width: 300px;
+  --drawer-width: 360px;
+  --pane-switch-height: 40px;
+
+  /* Motion */
+  --transition-fast: 110ms ease;
+  --transition-base: 170ms ease;
+
+  /* Stacking */
+  --z-map-overlay: 10;
+  --z-drawer-float: 20;
+  --z-topbar: 30;
+  --z-toast: 40;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0ms;
+    --transition-base: 0ms;
+  }
+}

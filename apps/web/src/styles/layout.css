@@ -1,0 +1,326 @@
+/* Application shell, top bar, and the responsive dashboard workspace. */
+
+.app-shell {
+  height: 100%;
+  display: grid;
+  grid-template-rows: var(--topbar-height) 1fr;
+  min-height: 0;
+}
+
+/* ---------- Top bar ---------- */
+
+.topbar {
+  position: relative;
+  z-index: var(--z-topbar);
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  padding: 0 var(--space-5);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-raised);
+  min-width: 0;
+}
+
+.topbar__brand {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+
+.topbar__brand strong {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: 1.1;
+}
+
+.topbar__brand span {
+  font-size: var(--text-2xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+}
+
+.topbar__nav {
+  display: flex;
+  gap: var(--space-2);
+  margin-left: auto;
+}
+
+.topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.topbar__city {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.topbar__city .control {
+  width: auto;
+  min-width: 170px;
+  padding-top: var(--space-2);
+  padding-bottom: var(--space-2);
+  font-size: var(--text-base);
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition:
+    color var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.nav-link:hover {
+  color: var(--color-text);
+  background: var(--color-surface-hover);
+}
+
+.nav-link.is-active {
+  color: var(--color-text-on-accent);
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  font-weight: var(--weight-semibold);
+}
+
+/* Connection indicator: shape + text, not colour alone. */
+.conn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 2px var(--space-3);
+  white-space: nowrap;
+}
+
+.conn__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-text-faint);
+  flex: 0 0 auto;
+}
+
+.conn--open .conn__dot {
+  background: var(--color-success);
+}
+
+.conn--connecting .conn__dot {
+  background: var(--color-warning);
+}
+
+.conn--closed .conn__dot,
+.conn--error .conn__dot {
+  background: var(--color-danger);
+}
+
+.topbar__user {
+  display: grid;
+  gap: 0;
+  text-align: right;
+  min-width: 0;
+}
+
+.topbar__user b {
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+}
+
+.topbar__user span {
+  font-size: var(--text-2xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+
+/* ---------- Workspace (desktop: sidebar | map | drawer) ---------- */
+
+.workspace {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr) var(--drawer-width);
+  min-height: 0;
+  min-width: 0;
+}
+
+.workspace__sidebar,
+.workspace__drawer {
+  min-height: 0;
+  min-width: 0;
+  background: var(--color-surface);
+  display: grid;
+  grid-template-rows: 1fr;
+}
+
+/* Explicit placement so DOM order can follow reading order (controls, list,
+   map, detail) independently of the visual column order. */
+.workspace__sidebar {
+  grid-column: 1;
+  border-right: 1px solid var(--color-border);
+}
+
+.workspace__map {
+  grid-column: 2;
+  position: relative;
+  min-height: 0;
+  min-width: 0;
+  background: var(--color-surface-sunken);
+}
+
+.workspace__drawer {
+  grid-column: 3;
+  border-left: 1px solid var(--color-border);
+}
+
+/* The pane switcher only exists on small screens. */
+.pane-switch {
+  display: none;
+}
+
+/* ---------- Tablet / small laptop: drawer floats over the map ---------- */
+
+@media (max-width: 1279px) {
+  .workspace {
+    grid-template-columns: minmax(240px, 34%) minmax(0, 1fr);
+  }
+
+  /* The detail panel floats over the map instead of stealing a third column. */
+  .workspace__drawer {
+    grid-column: 2;
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    bottom: var(--space-4);
+    width: min(var(--drawer-width), calc(100% - var(--space-8)));
+    z-index: var(--z-drawer-float);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-panel);
+    overflow: hidden;
+  }
+}
+
+/* ---------- Mobile: map stays visible, list and detail become panes ---------- */
+
+@media (max-width: 767px) {
+  :root {
+    --topbar-height: auto;
+  }
+
+  .topbar {
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .topbar__nav {
+    order: 3;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .topbar__nav .nav-link {
+    flex: 1 1 0;
+    justify-content: center;
+  }
+
+  .topbar__actions {
+    margin-left: auto;
+  }
+
+  .topbar__city .control {
+    min-width: 130px;
+  }
+
+  .topbar__user {
+    display: none;
+  }
+
+  .workspace {
+    grid-template-columns: 1fr;
+    grid-template-rows: 46vh var(--pane-switch-height) minmax(0, 1fr);
+  }
+
+  /* The map keeps its own grid cell so MapLibre is never unmounted or
+     display:none-d, which would break its size tracking. */
+  .workspace__map {
+    grid-column: 1;
+    grid-row: 1;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .pane-switch {
+    grid-column: 1;
+    grid-row: 2;
+    display: flex;
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg-raised);
+  }
+
+  .pane-switch__btn {
+    flex: 1 1 0;
+    border: none;
+    border-right: 1px solid var(--color-border);
+    background: transparent;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    cursor: pointer;
+    padding: 0 var(--space-3);
+  }
+
+  .pane-switch__btn:last-child {
+    border-right: none;
+  }
+
+  .pane-switch__btn[aria-pressed="true"] {
+    color: var(--color-text-on-accent);
+    background: var(--color-accent);
+  }
+
+  .workspace__sidebar,
+  .workspace__drawer {
+    grid-column: 1;
+    grid-row: 3;
+    border: none;
+    position: static;
+    width: auto;
+    inset: auto;
+    border-radius: 0;
+    box-shadow: none;
+    z-index: auto;
+  }
+
+  .workspace__sidebar[hidden],
+  .workspace__drawer[hidden] {
+    display: none;
+  }
+}
+
+/* ---------- Centred page shell (login) ---------- */
+
+.page-center {
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  padding: var(--space-7) var(--space-5);
+}
